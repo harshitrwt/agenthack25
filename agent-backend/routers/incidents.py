@@ -1,21 +1,19 @@
-from fastapi import APIRouter, Request
-from services import slack
+from fastapi import APIRouter, Request, Header
+from models import Incident
+from services import analyzer, slack, portia_plans
+from utils import verify_github_signature
 
 router = APIRouter()
 
-@router.post("/issues")
-async def handle_important_issues(request: Request):
-    payload = await request.json()
-    action = payload.get("action")
-    issue = payload.get("issue")
-    labels = [label["name"] for label in issue.get("labels", [])]
+@router.post("/ci")
+async def ci_webhook(incident: Incident, request: Request, x_hub_signature_256: str = Header(None)):
+    await verify_github_signature(request)
 
-    important_labels = {"needs-attention", "high-priority"}
+    analysis = analyzer.analyze_incident(incident)
+    plan = await portia_plans.generate_plan(incident, analysis)
+    slack.send_incident_alert(incident, analysis, plan)
 
-    if action in ("opened", "reopened") and important_labels.intersection(labels):
-        title = issue.get("title")
-        url = issue.get("html_url")
-        message = f"Important Issue {action}: {title}\n{url}"
-        slack.send_message(message)
+    return {"status": "ci incident processed"}
 
-    return {"status": "issue processed"}
+
+
