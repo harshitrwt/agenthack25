@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Request
-from services import slack
+from services import slack, portia_plans
 from utils import verify_github_signature
+
 
 router = APIRouter()
 
@@ -16,9 +17,16 @@ async def handle_important_issues(request: Request):
     important_labels = {"needs-attention", "high-priority"}
 
     if action in ("opened", "reopened") and important_labels.intersection(labels):
-        title = issue.get("title")
-        url = issue.get("html_url")
-        message = f"Important Issue {action}: {title}\n{url}"
-        slack.send_message(message)
+        plan = await portia_plans.generate_plan(
+            incident=None,
+            analysis=None,
+            is_issue=True,
+            issue_data={
+                "title": issue.get("title"),
+                "body": issue.get("body")
+            }
+        )
+        
+        slack.send_message(plan)
 
     return {"status": "issue processed"}
