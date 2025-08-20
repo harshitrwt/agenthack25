@@ -1,7 +1,7 @@
 from models import Incident, Analysis
 
 def analyze_incident(incident: Incident) -> Analysis:
-    # Placeholder – can later integrate Gemini
+    # This can later use Portia or Gemini for deeper analysis
     return Analysis(
         summary=f"Incident from {incident.source}: {incident.error_message}",
         root_cause="Not yet automated",
