@@ -5,7 +5,7 @@ from utils import verify_github_signature
 
 router = APIRouter()
 
-@router.post("/webhook/ci")
+@router.post("/ci")
 async def ci_webhook(request: Request, x_hub_signature_256: str = Header(None)):
     await verify_github_signature(request)
 

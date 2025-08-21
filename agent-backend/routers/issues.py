@@ -5,7 +5,7 @@ from utils import verify_github_signature
 
 router = APIRouter()
 
-@router.post("/webhook/issues")
+@router.post("/issues")
 async def handle_important_issues(request: Request):
     await verify_github_signature(request)
 
