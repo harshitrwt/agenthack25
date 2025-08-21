@@ -4,6 +4,10 @@ from models import Incident, Analysis
 
 client = WebClient(token=SLACK_BOT_TOKEN)
 
+def send_message(text: str):
+    client.chat_postMessage(channel=SLACK_CHANNEL, text=text)
+
+
 def send_incident_alert(incident: Incident, analysis: Analysis, plan):
     message = f"""
 *Incident Alert*

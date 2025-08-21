@@ -5,7 +5,7 @@ from utils import verify_github_signature
 
 router = APIRouter()
 
-@router.post("/issues")
+@router.post("/webhook/issues")
 async def handle_important_issues(request: Request):
     await verify_github_signature(request)
 
@@ -26,7 +26,7 @@ async def handle_important_issues(request: Request):
                 "body": issue.get("body")
             }
         )
-        
         slack.send_message(plan)
+
 
     return {"status": "issue processed"}

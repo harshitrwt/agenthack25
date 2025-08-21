@@ -5,7 +5,7 @@ from utils import verify_github_signature
 
 router = APIRouter()
 
-@router.post("/ci")
+@router.post("/webhook/ci")
 async def ci_webhook(request: Request, x_hub_signature_256: str = Header(None)):
     await verify_github_signature(request)
 
@@ -37,4 +37,6 @@ async def ci_webhook(request: Request, x_hub_signature_256: str = Header(None)):
     slack.send_incident_alert(incident, analysis, plan)
 
     return {"status": "ci incident processed"}
+
+
 
