@@ -12,16 +12,16 @@ async def ci_webhook(request: Request, x_hub_signature_256: str = Header(None)):
     event_type = request.headers.get("X-GitHub-Event")
     
     if event_type == "ping":
-        # Respond to ping requests immediately
+        
         return {"msg": "pong"}
 
     if event_type not in ["workflow_run", "workflow_job"]:
-        # Ignore other event types
+        
         return {"msg": f"Ignored event type: {event_type}"}
 
     payload = await request.json()
     
-    # Example: Construct Incident with minimal required info
+    
     incident_data = {
         "source": payload.get("repository", {}).get("full_name", "unknown"),
         "error_message": payload.get("workflow_run", {}).get("conclusion", "unknown"),
@@ -36,7 +36,4 @@ async def ci_webhook(request: Request, x_hub_signature_256: str = Header(None)):
     plan = await portia_plans.generate_plan(incident, analysis, is_issue=False)
     slack.send_incident_alert(incident, analysis, plan)
 
-    return {"status": "ci incident processed"}
-
-
-
+    return {"status": "CI Incident processed"}
