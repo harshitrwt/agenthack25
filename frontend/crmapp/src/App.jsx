@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar.jsx';
+import Sidebar from './components/sidebar.jsx';
 import HeroSection from './components/HeroSection.jsx';
 import DriverCard from './components/DriverCard.jsx';
 import TruckCard from './components/Truckcard.jsx';
