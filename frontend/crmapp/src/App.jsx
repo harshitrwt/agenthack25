@@ -30,11 +30,9 @@ export default function App() {
     setDriversState([...drivers]);
     setTrucksState([...trucks]);
   }
-
-  // Helper to get company by id
+  
   const getCompany = (id) => companies.find(c => c.id === id);
 
-  // Helper to get driver assigned to truck
   const getAssignedDriver = (truckId) =>
     driversState.find(d => d.assignedTruckId === truckId);
 
@@ -116,7 +114,7 @@ export default function App() {
             <p className="mb-4">
               Our services cover freight transportation, logistics coordination, route planning, and driver management in the United States.
             </p>
-            {/* Embed Map or Routes image */}
+           
             <img
               src="https://i.pinimg.com/736x/96/0a/17/960a179639a5a4920de7d01ba0eb87cb.jpg"
               alt="Service Map"

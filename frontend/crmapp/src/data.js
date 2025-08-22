@@ -25,11 +25,11 @@ export const drivers = [
 ];
 
 export const invoices = [
-  { id: 1, driverId: 1, amount: 500, paid: true },
-  { id: 2, driverId: 2, amount: 300, paid: false },
-  { id: 3, driverId: 3, amount: 450, paid: true },
-  { id: 4, driverId: 4, amount: 600, paid: false },
-  { id: 5, driverId: 5, amount: 750, paid: true },
+  { id: 1, driverId: 1, amount: 1500, paid: YES },
+  { id: 2, driverId: 2, amount: 1300, paid: NO },
+  { id: 3, driverId: 3, amount: 2450, paid: YES },
+  { id: 4, driverId: 4, amount: 1600, paid: NO },
+  { id: 5, driverId: 5, amount: 3750, paid: YES},
 ];
 
 export function assignTruck(driverId, truckId) {

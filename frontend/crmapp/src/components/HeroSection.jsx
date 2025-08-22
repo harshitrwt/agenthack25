@@ -5,16 +5,16 @@ export default function HeroSection() {
     <section
       className="relative h-[500px] w-full text-white flex flex-col justify-center items-center text-center px-6"
       style={{
-        backgroundImage: "url('https://media.istockphoto.com/id/1445074332/photo/bright-colorful-big-rigs-semi-trucks-with-semi-trailers-standing-in-the-row-on-truck-stop.jpg?s=612x612&w=0&k=20&c=N5fVLeFT119Yv0QSH2Z9UgDXFOLW1qXHqL0p7EPkPRs=')",
+        backgroundImage: "url('https://i.pinimg.com/1200x/94/79/1a/94791a03f73dce4ff6afbcabadb006e7.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-60"></div>
+      
+      <div className="absolute inset-0 bg-black bg-opacity-20"></div>
 
-      {/* Content */}
+      
       <div className="relative z-10 max-w-4xl">
         <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
           American Freight Management

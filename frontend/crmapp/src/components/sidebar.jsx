@@ -12,7 +12,7 @@ export default function Sidebar({ trucks, drivers, companies }) {
             <li
               key={truck.id}
               className={`flex items-center py-2 px-2 rounded mb-1 ${
-                truck.available ? 'bg-green-700' : 'bg-red-700'
+                truck.available ? 'bg-green-500' : 'bg-yellow-500'
               }`}
             >
               <img
