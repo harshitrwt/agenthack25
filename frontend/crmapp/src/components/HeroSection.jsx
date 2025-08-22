@@ -17,13 +17,12 @@ export default function HeroSection() {
       
       <div className="relative z-10 max-w-4xl">
         <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
-          American Freight Management
+          EuroBridge Trucking
         </h1>
         <p className="text-xl max-w-xl mx-auto mb-8 drop-shadow-md">
-          Reliable Truck & Vehicle Transportation Services Across the United States.
-          Efficient Fleet Management, Driver Allocation, and Real-Time Logistics Solutions.
+          Reliable Truck & Vehicle Transportation Services Across the Europe. Efficient Fleet Management, Driver Allocation, and Real-Time Logistics Solutions.
         </p>
-        <button className="px-6 py-3 bg-red-600 hover:bg-red-700 rounded font-semibold shadow-lg transition duration-300">
+        <button className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 rounded font-semibold shadow-lg transition duration-300">
           Get Started
         </button>
       </div>

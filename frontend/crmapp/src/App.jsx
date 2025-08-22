@@ -71,7 +71,7 @@ export default function App() {
           </section>
 
           <section>
-            <h2 className="text-2xl font-semibold mb-4">Companies</h2>
+            <h2 className="text-2xl font-semibold mb-4">Associated Companies</h2>
             <div className="grid gap-6 md:grid-cols-3">
               {companies.map(company => (
                 <CompanyCard key={company.id} company={company} />
