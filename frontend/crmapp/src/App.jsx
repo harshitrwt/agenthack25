@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import Sidebar from './components/sidebar.jsx';
+import Sidebar from './components/Sidebar.jsx';
 import HeroSection from './components/HeroSection.jsx';
+import DriverCard from './components/DriverCard.jsx';
+import TruckCard from './components/Truckcard.jsx';
+import CompanyCard from './components/CompanyCard.jsx';
+
 import {
   trucks,
   drivers,
@@ -9,9 +13,6 @@ import {
   assignTruck,
   unassignTruck,
 } from './data.js';
-
-const truckImage = "https://plus.unsplash.com/premium_photo-1664695368767-c42483a0bda1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dHJ1Y2t8ZW58MHx8MHx8fDA%3D";
-const driverImage = "https://images.squarespace-cdn.com/content/v1/5e73c9f4230dd951bffdcee0/e9350177-c899-4590-9b90-bf5a1d0eae53/Bright-Future-Truck-Driving-Jobs.jpg";
 
 export default function App() {
   const [trucksState, setTrucksState] = useState(trucks);
@@ -30,10 +31,12 @@ export default function App() {
     setTrucksState([...trucks]);
   }
 
-  const getCompanyName = (companyId) => {
-    const company = companies.find(c => c.id === companyId);
-    return company ? company.name : "Unknown";
-  }
+  // Helper to get company by id
+  const getCompany = (id) => companies.find(c => c.id === id);
+
+  // Helper to get driver assigned to truck
+  const getAssignedDriver = (truckId) =>
+    driversState.find(d => d.assignedTruckId === truckId);
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -42,70 +45,39 @@ export default function App() {
         <HeroSection />
         <main className="p-6 max-w-7xl mx-auto space-y-10">
           <section>
-            <h2 className="text-2xl font-semibold mb-4">Driver and Truck Assignments</h2>
-            <div className="space-y-4">
-              {driversState.map(driver => {
-                const assignedTruck = trucksState.find(t => t.id === driver.assignedTruckId);
-                return (
-                  <div key={driver.id} className="p-4 bg-white rounded shadow flex justify-between items-center">
-                    <div className="flex items-center space-x-4">
-                      {/* Driver Image */}
-                      <img 
-                        src={driverImage}
-                        alt={driver.name}
-                        className="w-14 h-14 rounded-full object-cover flex-shrink-0"
-                        loading="lazy"
-                      />
-                      {/* Driver Info */}
-                      <div>
-                        <p className="font-medium">{driver.name}</p>
-                        <p className="text-sm text-gray-500">Company: {getCompanyName(driver.companyId)}</p>
-                      </div>
-                    </div>
+            <h2 className="text-2xl font-semibold mb-4">Drivers</h2>
+            <div className="grid gap-6 md:grid-cols-2">
+              {driversState.map(driver => (
+                <DriverCard
+                  key={driver.id}
+                  driver={driver}
+                  assignedTruck={trucksState.find(t => t.id === driver.assignedTruckId)}
+                  company={getCompany(driver.companyId)}
+                />
+              ))}
+            </div>
+          </section>
 
-                    <div className="flex items-center space-x-4">
-                      {/* Truck image and info or message */}
-                      {assignedTruck ? (
-                        <>
-                          <img 
-                            src={truckImage}
-                            alt={assignedTruck.name}
-                            className="w-20 h-12 object-cover rounded flex-shrink-0"
-                            loading="lazy"
-                          />
-                          <p className="text-gray-700">{assignedTruck.name}</p>
-                        </>
-                      ) : (
-                        <span>No truck assigned</span>
-                      )}
-                    </div>
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">Trucks</h2>
+            <div className="grid gap-6 md:grid-cols-2">
+              {trucksState.map(truck => (
+                <TruckCard
+                  key={truck.id}
+                  truck={truck}
+                  company={getCompany(truck.companyId)}
+                  assignedDriver={getAssignedDriver(truck.id)}
+                />
+              ))}
+            </div>
+          </section>
 
-                    <div>
-                      {assignedTruck ? (
-                        <button
-                          onClick={() => handleUnassign(driver.id)}
-                          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                        >
-                          Unassign Truck
-                        </button>
-                      ) : (
-                        <select
-                          className="border rounded px-2 py-1"
-                          onChange={e => handleAssign(driver.id, Number(e.target.value))}
-                          defaultValue=""
-                        >
-                          <option value="" disabled>Assign Truck</option>
-                          {trucksState.filter(t => t.available).map(truck => (
-                            <option key={truck.id} value={truck.id}>
-                              {truck.name} - {getCompanyName(truck.companyId)}
-                            </option>
-                          ))}
-                        </select>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+          <section>
+            <h2 className="text-2xl font-semibold mb-4">Companies</h2>
+            <div className="grid gap-6 md:grid-cols-3">
+              {companies.map(company => (
+                <CompanyCard key={company.id} company={company} />
+              ))}
             </div>
           </section>
 
@@ -134,6 +106,22 @@ export default function App() {
                 })}
               </tbody>
             </table>
+          </section>
+
+          <section className="bg-white rounded shadow p-6">
+            <h2 className="text-2xl font-semibold mb-4">About Our Services</h2>
+            <p className="mb-4">
+              We provide nationwide transportation services specializing in trucking vehicles and logistics management...
+            </p>
+            <p className="mb-4">
+              Our services cover freight transportation, logistics coordination, route planning, and driver management in the United States.
+            </p>
+            {/* Embed Map or Routes image */}
+            <img
+              src="https://i.pinimg.com/736x/96/0a/17/960a179639a5a4920de7d01ba0eb87cb.jpg"
+              alt="Service Map"
+              className="w-full h-64 object-cover rounded"
+            />
           </section>
         </main>
       </div>
