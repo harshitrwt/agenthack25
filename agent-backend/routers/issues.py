@@ -13,7 +13,7 @@ async def handle_important_issues(request: Request):
     issue = payload.get("issue", {})
     labels = {label["name"] for label in issue.get("labels", [])}
 
-    important_labels = {"good first issue", "help-wanted"}
+    important_labels = {"good first issue", "help wanted"}
 
     if action in ("opened", "reopened") and important_labels.intersection(labels):
         plan = await portia_plans.generate_plan(

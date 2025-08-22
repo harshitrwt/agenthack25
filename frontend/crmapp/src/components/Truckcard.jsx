@@ -19,7 +19,7 @@ export default function TruckCard({ truck, company, assignedDriver, onBook }) {
       {truck.available && (
         <button
           onClick={() => onBook(truck.id)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition"
         >
           Book Now
         </button>
