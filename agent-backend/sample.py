@@ -1,13 +1,20 @@
-import requests, os
+from services.portia_instance import portia_agent
 
-slack_token = ""
-channel_id = ""
+prompt = """
+You are a project assistant.
+Analyze this GitHub issue and break it down into actionable steps.
 
-response = requests.post(
-    "https://slack.com/api/chat.postMessage",
-    headers={"Authorization": f"Bearer {slack_token}"},
-    data={"channel": channel_id, "text": "Hey! I'm Sentinel 🤗, The reason i'm called Sentinel is because I am here to Guard 👮🏻 u from errors. wanna see right? \n"
-    "I'm here to let you know if there occurs any failures in your project and share the perfect issues for new people in the team to work upon. Don't worry I won't ping u until required.\nThank me later! 😉"},
-)
+Issue Title: Add a README
+Issue Body: Please create a README file that includes installation instructions, usage examples, and licensing info.
+"""
 
-print(response.json())
+try:
+    plan = portia_agent.plan(prompt)
+    print("\n--- CLEANED STEPS ---")
+    for idx, step in enumerate(plan.steps, 1):
+        print(f"{idx}. {step.task}")
+except Exception as e:
+    print("Plan generation failed, falling back to chat. Error:", e)
+    response = portia_agent.chat(prompt)
+    print("\n--- FALLBACK RESPONSE ---")
+    print(response.output_text)

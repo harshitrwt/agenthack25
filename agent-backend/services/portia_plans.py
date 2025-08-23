@@ -3,31 +3,37 @@ from models import Incident, Analysis
 
 INCIDENT_PROMPT_TEMPLATE = """
 You are a planning assistant.
-Create a concrete, step-by-step remediation plan for the software incident below.
+Read the following software incident details and produce a clear,
+step-by-step human-readable plan on how to fix it.
 
 Incident Summary: {summary}
 Source: {source}
 Error Message: {error_message}
 Root Cause: {root_cause}
 
-Return a clear plan with numbered steps and short justifications.
+Write the plan as a short Markdown-style list that can be sent directly to Slack.
+Do NOT return JSON, code blocks, or extra formatting instructions.
 """
+
 
 ISSUE_PROMPT_TEMPLATE = """
 You are a planning assistant.
-Analyze the GitHub issue below and produce a short, actionable plan (1–5 steps)
-including priority, owners (if guessable), and next actions.
+Read the following GitHub issue and write a short, actionable plan
+on how to address it.
 
 Issue Title: {title}
 Issue Body: {body}
 
-Return a clear plan with numbered steps and short justifications.
+Return only a concise human-readable plan with clear steps, as if you are
+explaining to engineers what needs to be done.
+Do NOT return JSON, code blocks, or any boilerplate text.
 """
+
 
 def _serialize_plan_for_slack(plan_obj) -> str:
     """
     Convert Portia plan object into a readable Slack message.
-    Falls back gracefully if structure is unexpected.
+    Ensure plan text is returned cleanly formatted for Slack.
     """
    
     try:
@@ -50,6 +56,8 @@ def _serialize_plan_for_slack(plan_obj) -> str:
     except Exception:
         return f"*Plan*\n{str(plan_obj)}"
 
+
+
 async def generate_plan(
     incident: Incident = None,
     analysis: Analysis = None,
@@ -69,17 +77,15 @@ async def generate_plan(
             root_cause=(analysis.root_cause if analysis and analysis.root_cause else "Not determined"),
         )
 
-    
     last_err = None
     for _ in range(2):
         try:
-            plan_result = portia_agent.plan(prompt)  
-            if plan_result:
-                return _serialize_plan_for_slack(plan_result)
+            raw_result = portia_agent.plan(prompt)
+            if raw_result:
+                return _serialize_plan_for_slack(str(raw_result))
         except Exception as e:
             last_err = e
 
-    
     fallback = "*Plan generation failed.*\n"
     if last_err:
         fallback += f"_Reason_: {last_err}"

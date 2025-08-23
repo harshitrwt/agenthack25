@@ -17,7 +17,7 @@ export const trucks = [
 ];
 
 export const drivers = [
-  { id: 1, name: "John Doe", assignedTruckId: 2, companyId: 2, imageUrl: "https://images.squarespace-cdn.com/content/v1/5e73c9f4230dd951bffdcee0/e9350177-c899-4590-9b90-bf5a1d0eae53/Bright-Future-Truck-Driving-Jobs.jpg" },
+  { id: 1, name: "Sam", assignedTruckId: 2, companyId: 2, imageUrl: "https://images.squarespace-cdn.com/content/v1/5e73c9f4230dd951bffdcee0/e9350177-c899-4590-9b90-bf5a1d0eae53/Bright-Future-Truck-Driving-Jobs.jpg" },
   { id: 2, name: "Jane Smith", assignedTruckId: null, companyId: 1, imageUrl: "https://cdn.prod.website-files.com/5f70f0246e0318453837c2b9/645e55802a8121645040fbed_hiring%20a%20truck%20driver.webp" },
   { id: 3, name: "Tom Brown", assignedTruckId: 3, companyId: 3, imageUrl: "https://www.ohiotrucks.com/wp-content/uploads/10-tips-for-becoming-semi-truck-owner-operator.jpg" },
   { id: 4, name: "Emily Davis", assignedTruckId: null, companyId: 4, imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrnrjJEPDI4xn30MqSmwSjFmy99iqZZZq53A&s" },
