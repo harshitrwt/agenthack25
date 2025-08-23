@@ -1,12 +1,13 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Dict
 
+
 class Incident(BaseModel):
-    source: str         
+    source: str
     error_message: str
-    metadata: Optional[Dict] = None
+    metadata: Dict = Field(default_factory=dict)  
 
 class Analysis(BaseModel):
     summary: str
     root_cause: Optional[str] = None
-    severity: Optional[str] = "medium"
+    severity: str = "medium" 

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function DriverCard({ driver, assignedTruck, company }) {
   return (
-    <div className="bg-white rounded shadow p-4 flex items-center space-x-4">
+    <div className="bg-white rounded shadow p-3 flex items-center space-x-4">
       <img
         src={driver.imageUrl}
         alt={driver.name}
