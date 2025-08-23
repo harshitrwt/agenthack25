@@ -22,7 +22,7 @@ export default function HeroSection() {
         <p className="text-xl max-w-xl mx-auto mb-8 drop-shadow-md">
           Reliable Truck & Vehicle Transportation Services Across the Europe. Efficient Fleet Management, Driver Allocation, and Real-Time Logistics Solutions.
         </p>
-        <button className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 rounded font-semibold shadow-lg transition duration-300">
+        <button className="px-6 py-3 bg-yellow-500 hover:bg-yellow-700 rounded font-semibold shadow-lg transition duration-300">
           Get Started
         </button>
       </div>

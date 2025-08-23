@@ -53,7 +53,7 @@ def _serialize_for_slack(ai_obj) -> str:
 
     try:
         dump = ai_obj if isinstance(ai_obj, dict) else ai_obj.model_dump()
-        summary = dump.get("summary", "No summary provided.")
+        summary = dump.get("summary", "No summary for this issue.")
         contributor_note = dump.get("contributor_note", "")
         meta = dump.get("meta", {})
 
