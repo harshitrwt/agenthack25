@@ -2,46 +2,33 @@ from services.portia_instance import portia_agent
 from models import Incident, Analysis
 
 
-INCIDENT_PROMPT_TEMPLATE = """
-You are a helpful assistant.
-Analyze the following software incident and provide:
-
-1. A short summary of what might have happened (one or two sentences).
-2. A contributor note:
-   - If it sounds simple (docs, typo, config), suggest it's good for new contributors.
-   - If it sounds harder (infra, logic, CI failures), suggest it's better for experienced contributors.
-
-Incident Summary: {summary}
-Source: {source}
-Error Message: {error_message}
-
-
-Return ONLY valid JSON:
-{{
-  "summary": "...",
-  "contributor_note": "...",
-}}
-"""
-
-
 ISSUE_PROMPT_TEMPLATE = """
-You are a helpful assistant.
-Analyze the following GitHub issue and provide:
-
-1. A short summary of what the issue is about (one or two sentences).
-2. A contributor note:
-   - If it sounds simple (docs, typo, config), suggest it's good for new contributors.
-   - If it sounds harder (infra, logic, CI failures), suggest it's better for experienced contributors.
+You are an assistant helping classify GitHub issues.
+Read the following issue and return:
+- A short **summary** of the issue
+- A note on whether this is good for *new contributors* or needs *experienced contributors*
 
 Issue Title: {title}
 Issue Body: {body}
 
-Return ONLY valid JSON:
-{{
-  "summary": "...",
-  "contributor_note": "...",
-}}
+Respond in plain text. Do not use JSON or code blocks.
 """
+
+INCIDENT_PROMPT_TEMPLATE = """
+You are an assistant helping engineers handle software incidents.
+Analyze the following incident and provide:
+- A short **summary** of what happened
+- A possible **root cause**
+- A note for contributors on how to proceed (new vs experienced)
+
+Incident Summary: {summary}
+Source: {source}
+Error Message: {error_message}
+Root Cause: {root_cause}
+
+Respond in plain text. Do not use JSON or code blocks.
+"""
+
 
 
 def _serialize_for_slack(ai_obj) -> str:
@@ -53,7 +40,7 @@ def _serialize_for_slack(ai_obj) -> str:
 
     try:
         dump = ai_obj if isinstance(ai_obj, dict) else ai_obj.model_dump()
-        summary = dump.get("summary", "No summary for this issue.")
+        summary = dump.get("summary", "No summary for this one.")
         contributor_note = dump.get("contributor_note", "")
         meta = dump.get("meta", {})
 

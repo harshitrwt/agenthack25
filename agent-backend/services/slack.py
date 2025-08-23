@@ -18,7 +18,6 @@ def send_incident_alert(incident: Incident, analysis: Analysis, plan: str, inclu
     log_snippet = ""
     if include_logs and incident.metadata:
         try:
-            # keep logs lightweight for Slack
             import json
             logs_preview = json.dumps(incident.metadata, indent=2)[:800]
             log_snippet = f"\n*Logs Preview:*\n```{logs_preview}...```"
@@ -27,28 +26,26 @@ def send_incident_alert(incident: Incident, analysis: Analysis, plan: str, inclu
 
     message = f"""
 *🚨 Incident Alert*
-*Source:* {incident.source}
-*Error:* {incident.error_message}
-*Analysis:* {analysis.summary}
-*Root Cause:* {analysis.root_cause}
-*Plan:* 
-{plan}
+*Source:* {incident.source or "N/A"}
+*Error:* {incident.error_message or "N/A"}
+*Analysis:* {analysis.summary or "No summary generated"}
+*Root Cause:* {analysis.root_cause or "Not determined"}
+*Contributor Note:* {plan or "AI did not generate a contributor note"}
 {log_snippet}
     """
     send_message(message, SLACK_INCIDENTS_CHANNEL)
 
-def send_important_issue_alert(issue: dict, plan: str = "No plan provided"):
-    title = issue.get("title", "No title")
-    url = issue.get("html_url", "No URL")
-    body = issue.get("body", "No description")
+
+def send_important_issue_alert(issue: dict, plan: str = "AI did not generate a note"):
+    title = issue.get("title") or "No title"
+    url = issue.get("html_url") or "No URL"
+    body = issue.get("body") or "No description"
 
     message = f"""
 *⚠️ Issue Alert*
 *Title:* {title}
 *URL:* {url}
 *Details:* {body}
-*Plan:* 
-{plan}
+*Contributor Note:* {plan}
     """
     send_message(message, SLACK_ISSUES_CHANNEL)
-

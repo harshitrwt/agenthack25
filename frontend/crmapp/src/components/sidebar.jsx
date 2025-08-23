@@ -6,7 +6,7 @@ export default function Sidebar({ trucks, drivers, companies }) {
       <h2 className="text-xl font-bold mb-4 border-b border-gray-700 pb-2">Dashboard</h2>
 
       <div>
-        <h3 className="text-lg font-semibold mb-3 border-b border-gray-700 pb-1">Trucks</h3>
+        <h3 className="text-lg font-semibold mb-3 border-b border-gray-700 pb-1">All Trucks</h3>
         <ul>
           {trucks.map(truck => (
             <li
