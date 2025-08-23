@@ -10,23 +10,16 @@ Analyze the following software incident and provide:
 2. A contributor note:
    - If it sounds simple (docs, typo, config), suggest it's good for new contributors.
    - If it sounds harder (infra, logic, CI failures), suggest it's better for experienced contributors.
-3. Metadata:
-   - Priority (high | medium | low)
-   - Next action (a short, concrete step to move forward)
 
 Incident Summary: {summary}
 Source: {source}
 Error Message: {error_message}
-Root Cause: {root_cause}
+
 
 Return ONLY valid JSON:
 {{
   "summary": "...",
   "contributor_note": "...",
-  "meta": {{
-    "priority": "high | medium | low",
-    "next_action": "..."
-  }}
 }}
 """
 
@@ -39,9 +32,6 @@ Analyze the following GitHub issue and provide:
 2. A contributor note:
    - If it sounds simple (docs, typo, config), suggest it's good for new contributors.
    - If it sounds harder (infra, logic, CI failures), suggest it's better for experienced contributors.
-3. Metadata:
-   - Priority (high | medium | low)
-   - Next action (a short, concrete step to move forward)
 
 Issue Title: {title}
 Issue Body: {body}
@@ -50,10 +40,6 @@ Return ONLY valid JSON:
 {{
   "summary": "...",
   "contributor_note": "...",
-  "meta": {{
-    "priority": "high | medium | low",
-    "next_action": "..."
-  }}
 }}
 """
 
@@ -77,12 +63,11 @@ def _serialize_for_slack(ai_obj) -> str:
         message = (
             f"*Summary*: {summary}\n"
             f"*Note*: {contributor_note}\n"
-            f"*Priority*: {priority}\n"
-            f"*Next Action*: {next_action}"
+            
         )
         return message
     except Exception as e:
-        # fallback: dump raw for debugging
+      
         return f"*AI Output (raw)*\n```{json.dumps(str(ai_obj), indent=2)}```\n_Error_: {e}"
 
 
@@ -114,7 +99,7 @@ async def generate_plan(
         except Exception as e:
             last_err = e
 
-    fallback = "*Summary generation failed.*\n"
+    fallback = "*Summary Generation in Queue...*\n"
     if last_err:
         fallback += f"_Reason_: {last_err}"
     else:
