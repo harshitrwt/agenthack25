@@ -11,7 +11,7 @@ export default function CompanyCard({ company }) {
       />
       <div>
         <h3 className="text-lg font-semibold">{company.name}</h3>
-        <p className="text-gray-600">{company.title}</p>
+        <p className="text-gray-700">{company.title}</p>
       </div>
     </div>
   );

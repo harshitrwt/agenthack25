@@ -14,14 +14,26 @@ client = WebClient(token=SLACK_BOT_TOKEN)
 def send_message(text: str, channel: str):
     client.chat_postMessage(channel=channel, text=text)
 
-def send_incident_alert(incident: Incident, analysis: Analysis, plan: str):
+def send_incident_alert(incident: Incident, analysis: Analysis, plan: str, include_logs: bool = True):
+    log_snippet = ""
+    if include_logs and incident.metadata:
+        try:
+            # keep logs lightweight for Slack
+            import json
+            logs_preview = json.dumps(incident.metadata, indent=2)[:800]
+            log_snippet = f"\n*Logs Preview:*\n```{logs_preview}...```"
+        except Exception:
+            pass
+
     message = f"""
 *🚨 Incident Alert*
 *Source:* {incident.source}
 *Error:* {incident.error_message}
 *Analysis:* {analysis.summary}
 *Root Cause:* {analysis.root_cause}
-*Plan:* {plan}
+*Plan:* 
+{plan}
+{log_snippet}
     """
     send_message(message, SLACK_INCIDENTS_CHANNEL)
 
@@ -35,6 +47,8 @@ def send_important_issue_alert(issue: dict, plan: str = "No plan provided"):
 *Title:* {title}
 *URL:* {url}
 *Details:* {body}
-*Plan:* {plan}
+*Plan:* 
+{plan}
     """
     send_message(message, SLACK_ISSUES_CHANNEL)
+

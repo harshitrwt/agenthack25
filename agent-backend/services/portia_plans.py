@@ -82,7 +82,7 @@ async def generate_plan(
         try:
             raw_result = portia_agent.plan(prompt)
             if raw_result:
-                return _serialize_plan_for_slack(str(raw_result))
+                return _serialize_plan_for_slack(raw_result)
         except Exception as e:
             last_err = e
 
