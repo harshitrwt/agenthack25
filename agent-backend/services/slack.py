@@ -18,7 +18,7 @@ def send_incident_alert(incident: Incident, analysis: Analysis, plan: str, inclu
 
     body = f"""
 *Source:* {incident.source or "N/A"}
-*Error:* {incident.error_message or "N/A"}
+*Error:* Failure
 *Analysis:* {analysis.summary or "No summary generated"}
 *Root Cause:* {analysis.root_cause or "Not determined"}
 {log_snippet}
