@@ -9,7 +9,6 @@ Sentinel is an intelligent, automated incident analysis agent that integrates se
 
 Sentinel is designed to streamline incident handling by automatically analyzing and classifying system issues as they occur. By leveraging state-of-the-art generative AI (Google Gemini), Sentinel presents teams about root causes, and intelligent suggestions about contributor suitability—all delivered in developer-friendly language via real-time integrations.
 
-Youtube Video : [Sentinel](https://example.com)
 
 ## Impact & Innovation
 
@@ -60,6 +59,10 @@ Sentinel is built as a lightweight Python microservice with FastAPI endpoints, e
    - Format as structured report (title, summary, recommendations)
    - Immediate notification through Slack and, if desired, other tools
 
+      
+![sentinelarch](architecture.png)
+   *(ai generated)
+
 
 ## Integration: EuroBridge Trucking, A Truck CRM App
 
@@ -68,8 +71,6 @@ Incidents generated within this app flow automatically to Sentinel for real-time
 
 ![TruckCRM app](truckapp.png)
 
-
-Youtube Video : [Truck CRM app](https://example.com)
 
 ## How it Works
 
