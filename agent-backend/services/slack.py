@@ -1,18 +1,10 @@
-from slack_sdk import WebClient
-from dotenv import load_dotenv
-import os
 from models import Incident, Analysis
+from utils import send_slack_message
+import os
 
-load_dotenv()
-
-SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
 SLACK_INCIDENTS_CHANNEL = os.getenv("SLACK_INCIDENTS_CHANNEL")
 SLACK_ISSUES_CHANNEL = os.getenv("SLACK_ISSUES_CHANNEL")
 
-client = WebClient(token=SLACK_BOT_TOKEN)
-
-def send_message(text: str, channel: str):
-    client.chat_postMessage(channel=channel, text=text)
 
 def send_incident_alert(incident: Incident, analysis: Analysis, plan: str, include_logs: bool = True):
     log_snippet = ""
@@ -24,28 +16,26 @@ def send_incident_alert(incident: Incident, analysis: Analysis, plan: str, inclu
         except Exception:
             pass
 
-    message = f"""
-*🚨 Incident Alert*
+    body = f"""
 *Source:* {incident.source or "N/A"}
 *Error:* {incident.error_message or "N/A"}
 *Analysis:* {analysis.summary or "No summary generated"}
 *Root Cause:* {analysis.root_cause or "Not determined"}
-*Contributor Note:* {plan or "AI did not generate a contributor note"}
 {log_snippet}
     """
-    send_message(message, SLACK_INCIDENTS_CHANNEL)
+
+    send_slack_message(SLACK_INCIDENTS_CHANNEL, "🚨 Incident Alert", body)
 
 
-def send_important_issue_alert(issue: dict, plan: str = "AI did not generate a note"):
+def send_important_issue_alert(issue: dict, plan: str = "No contributor note generated"):
     title = issue.get("title") or "No title"
     url = issue.get("html_url") or "No URL"
-    body = issue.get("body") or "No description"
+    body_text = issue.get("body") or "No description"
 
-    message = f"""
-*⚠️ Issue Alert*
+    body = f"""
 *Title:* {title}
 *URL:* {url}
-*Details:* {body}
-*Contributor Note:* {plan}
+*Details:* {body_text}
     """
-    send_message(message, SLACK_ISSUES_CHANNEL)
+
+    send_slack_message(SLACK_ISSUES_CHANNEL, "⚠️ Issue Alert", body)

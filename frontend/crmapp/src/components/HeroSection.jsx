@@ -17,7 +17,7 @@ export default function HeroSection() {
       
       <div className="relative z-10 max-w-4xl">
         <h1 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
-          EuroBridge Trucking
+          EuroBridge Trucking CRM
         </h1>
         <p className="text-xl max-w-xl mx-auto mb-8 drop-shadow-md">
           Reliable Truck & Vehicle Transportation Services Across the Europe. Efficient Fleet Management, Driver Allocation, and Real-Time Logistics Solutions.

@@ -82,11 +82,16 @@ async def generate_plan(
         try:
             raw_result = portia_agent.plan(prompt)
             if raw_result:
-                return _serialize_for_slack(raw_result)
+                
+                if isinstance(raw_result, str):
+                    return raw_result.strip()
+                if hasattr(raw_result, "content"):
+                    return str(raw_result.content).strip()
+                return str(raw_result).strip()
         except Exception as e:
             last_err = e
 
-    fallback = "*Summary Generation in Queue...*\n"
+    fallback = "*Contributor Note generation failed.*\n"
     if last_err:
         fallback += f"_Reason_: {last_err}"
     else:
